@@ -1,4 +1,5 @@
-const z = require("zod")
+/* const z = require("zod") */
+import z from "zod"
 
 // Esquema de como se debe ingresar una nueva movie
 const movieScheme = z.object({
@@ -17,16 +18,16 @@ const movieScheme = z.object({
 }) 
 
 // Valida todos los inputs
-function validateMovie(input) {
+export function validateMovie(input) {
     return movieScheme.safeParse(input)
 }
 
 // Valida los inputs que se necesiten
-function validatePartialMovie(input) {
+export function validatePartialMovie(input) {
     return movieScheme.partial().safeParse(input)
 }
 
-module.exports = {
+/* module.exports = {
     validateMovie,
     validatePartialMovie
-}
+} */

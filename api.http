@@ -17,7 +17,7 @@ Content-Type: application/json
     "director": "Un japones",
     "duration": 300,
     "poster": "https://www.latercera.com/resizer/zgMdnEk2a1IOwi-NIqMS-fkRmKE=/arc-anglerfish-arc2-prod-copesa/public/O5P35GANJVCWZCRVI5EBJJ73GE.jpg",
-    "genre": [ "Anime", "Drama", "Shonnen" ],
+    "genre": [ "Anime", "Drama" ],
     "rate": 10.0
 }
 
@@ -26,5 +26,9 @@ PATCH http://localhost:1234/movies/dcdd0fad-a94c-4810-8acc-5f108d3b18c3
 Content-Type: application/json
 
 {
-    "title": "The Shawshank Redemption III"
+    "title": "The Shawshank Redemption I"
 }
+
+
+### Borrar pelicula
+DELETE http://localhost:1234/movies/dcdd0fad-a94c-4810-8acc-5f108d3b18c3
