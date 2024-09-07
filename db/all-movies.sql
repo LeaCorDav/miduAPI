@@ -1,0 +1,1 @@
+SELECT BIN_TO_UUID(id), title, year, director, duration, rate FROM movie;

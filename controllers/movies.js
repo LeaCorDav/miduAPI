@@ -1,4 +1,4 @@
-import { MovieModel } from "../models/movie.js"
+import { MovieModel } from "../models/mysql/movie.js"
 import { validateMovie, validatePartialMovie } from "../schemes/movies.js"
 
 export class MovieController {
@@ -53,10 +53,10 @@ export class MovieController {
         const  { id } = req.params
         
         // Usa el Modelo
-        const result = await MovieModel.delete(id)
+        const result = await MovieModel.delete({id})
     
         // Caso de error
-        if(result) return res.status(404).json({message: "No se encuentra la pelicula"})
+        if(!result) return res.status(404).json({message: "No se encuentra la pelicula"})
         
     
         return res.json({ message: "Pelicula eliminada" })
