@@ -2,3 +2,4 @@
 /bin
 .lock
 package-lock.json
+.env

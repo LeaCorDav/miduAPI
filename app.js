@@ -1,7 +1,9 @@
 /* con MODULES */
+import 'dotenv/config';  //Debe importarse antes que nada
 import express from "express"
-import { moviesRouter } from "./routes/movies.js"
 import { corsMiddleware } from "./middlewares/cors.js"
+import { createMovieRouter } from "./routes/movies.js"
+import { MovieModel } from "./models/mysql/movie.js"
 
 
 const app = express()
@@ -16,7 +18,7 @@ app.get("/", (req, res) => {
 
 
 // USA ENRUTADO
-app.use("/movies", moviesRouter)
+app.use("/movies", createMovieRouter({ movieModel: MovieModel }))
 
 
 // LISTEN

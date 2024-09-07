@@ -1,14 +1,19 @@
-import { MovieModel } from "../models/mysql/movie.js"
 import { validateMovie, validatePartialMovie } from "../schemes/movies.js"
 
+// Patron de diseño: Inyeccion de Dependencias
 export class MovieController {
+    // Constructor
+    constructor({ movieModel }) {
+        this.movieModel = movieModel
+    }
+
     // Retorna todas las peliculas o por genero -------------------------
-    static async getAll (req, res) {
+    getAll = async (req, res) => {
         // Extrae queries
         const { genre } = req.query
 
         // Usa el Modelo
-        const movies = await MovieModel.getAll({genre})
+        const movies = await this.movieModel.getAll({genre})
 
         // Si no trae query params
         res.json(movies)
@@ -16,12 +21,12 @@ export class MovieController {
 
 
     // Retorna las peliculas por id -------------------------
-    static async getById (req, res) {
+    getById = async (req, res) => {
         // Extrae el parametro dinamico
         const  { id } = req.params
         
         // Usa el Modelo
-        const movie = await MovieModel.getById({id})
+        const movie = await this.movieModel.getById({id})
         if(movie) return res.json(movie)
         
         // Caso de error
@@ -30,7 +35,7 @@ export class MovieController {
 
 
     // Carga nueva pelicula -------------------------
-    static async create(req, res) {    
+    create = async(req, res) => {    
         // Agrega validacion con esquemas de Zot
         const result = validateMovie(req.body)
     
@@ -40,7 +45,7 @@ export class MovieController {
         }
     
         // Usa el Modelo
-        const newMovie = await MovieModel.create({input: result.data})
+        const newMovie = await this.movieModel.create({input: result.data})
     
         // Responde con un success 201 y retorna el nuevo item para actualizar el cache del cliente
         res.status(201).json(newMovie)
@@ -48,12 +53,12 @@ export class MovieController {
 
 
     // Borra una pelicula especifica -------------------------
-    static async delete(req, res) {
+    delete = async(req, res) => {
         // Extrae el parametro dinamico
         const  { id } = req.params
         
         // Usa el Modelo
-        const result = await MovieModel.delete({id})
+        const result = await this.movieModel.delete({id})
     
         // Caso de error
         if(!result) return res.status(404).json({message: "No se encuentra la pelicula"})
@@ -64,7 +69,7 @@ export class MovieController {
 
 
     // Actualiza algunos datos de una pelicula especifica -------------------------
-    static async update(req, res) {
+    update = async(req, res) => {
         // Valida el esquema de la propiedad que se quiere modificar
         const result = validatePartialMovie(req.body)
         if (!result.success) {
@@ -75,7 +80,7 @@ export class MovieController {
         const  { id } = req.params
         
         // Usa el Modelo
-        const updatedMovie = await MovieModel.update({id, input: result.data})
+        const updatedMovie = await this.movieModel.update({id, input: result.data})
     
         // Caso de error
         if(!updatedMovie) return res.status(404).json({message: "No se encuentra la pelicula"})
